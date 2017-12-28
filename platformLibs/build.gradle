@@ -59,8 +59,11 @@ private String defFileToInstallTaskName(String target, String name) {
 
 // TODO: Fix the report in performance project
 class KlibInstall extends Exec {
+    @InputFile
     public File klib
     public File repo
+
+    @Input
     public String target
 
     @Override
@@ -80,11 +83,17 @@ class KlibInstall extends Exec {
                     '-repository', repo.absolutePath
         }
     }
+
+    @OutputDirectory
+    File getInstallDir() {
+        def klibName = klib.name.take(klib.name.lastIndexOf('.'))
+        return project.file("$repo.absolutePath/$klibName")
+    }
+
+
 }
 
 //#endregion
-
-println(targetList)
 
 targetList.each { target ->
 
@@ -92,7 +101,7 @@ targetList.each { target ->
 
     targetDefFiles(target).each { df ->
         def libName = defFileToLibName(target, df.name)
-        def installTaskName = defFileToLibName(target, df.name)
+        def installTaskName = defFileToInstallTaskName(target, df.name)
 
         konan.targets = [target] // TODO: Support custom targets in gradle plugin.
         konanArtifacts {

@@ -79,7 +79,7 @@ task pluginMetadata {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-native-shared" // TODO: What about version?
+    compile 'org.jetbrains.kotlin:kotlin-native-shared'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$buildKotlinVersion"
     compile gradleApi()
 
