@@ -10,7 +10,6 @@ buildscript {
 }
 
 def taskName = "${gradle.startParameter.projectProperties['name']}"
-String konanHome = gradle.startParameter.projectProperties['konan.home']
 List<String> libs = gradle.startParameter.projectProperties.libraries.split(" ").findAll { !it.isEmpty() }
 String targetName = gradle.startParameter.projectProperties.target
 
@@ -28,7 +27,7 @@ konanArtifacts {
 }
 
 def suffix = gradle.startParameter.projectProperties['suffix']
-def klibProgram = suffix?"$konanHome/bin/klib.$suffix" : "$konanHome/bin/klib"
+def klibProgram = "$konanHome/bin/klib" + (suffix ? ".$suffix" : "")
 
 task klibInstall(type:Exec) {
     String repo = "$konanHome/klib/platform/$targetName"
@@ -44,3 +43,4 @@ task klibInstall(type:Exec) {
             '-repository',
             repo
 }
+
